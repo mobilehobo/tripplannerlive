@@ -1,4 +1,4 @@
-$(function initializeMap (){
+$(function initializeMap() {
 
   var fullstackAcademy = new google.maps.LatLng(40.705086, -74.009151);
 
@@ -46,7 +46,7 @@ $(function initializeMap (){
     activity: '/images/star-3.png'
   };
 
-  function drawMarker (type, coords) {
+  function drawMarker(type, coords) {
     var latLng = new google.maps.LatLng(coords[0], coords[1]);
     var iconURL = iconURLs[type];
     var marker = new google.maps.Marker({
@@ -54,10 +54,45 @@ $(function initializeMap (){
       position: latLng
     });
     marker.setMap(currentMap);
+    return marker;
   }
+  var markers = {};
+  $('#add-hotel').on('click', function () {
+    var hotelLoc = $('#hotel-choices').find(':selected').data('location')
+      .split(',')
+    var marker = drawMarker('hotel', hotelLoc);
+    markers[$('#hotel-choices').find(':selected').text()] = marker;
+  })
+  $('#add-activity').on('click', function () {
+    var actvLoc = $('#activity-choices').find(':selected').data('location')
+      .split(',')
+    var marker = drawMarker('activity', actvLoc);
+    markers[$('#activity-choices').find(':selected').text()] = marker;
+  })
+  $('#add-restaurant').on('click', function () {
+    var restLoc = $('#restaurant-choices').find(':selected').data('location')
+      .split(',')
+    var marker = drawMarker('restaurant', restLoc);
+    markers[$('#restaurant-choices').find(':selected').text()] = marker;
+  })
 
-  drawMarker('hotel', [40.705137, -74.007624]);
-  drawMarker('restaurant', [40.705137, -74.013940]);
-  drawMarker('activity', [40.716291, -73.995315]);
+  $("#hotels-itinerary").on('click', function (event) {
+    if (event.target.nodeName === "BUTTON") {
+      var title = $(event.target).prev()[0].innerHTML;
+      markers[title].setMap(null);
+    }
+  })
+  $("#activities-itinerary").on('click', function (event) {
+    if (event.target.nodeName === "BUTTON") {
+      var title = $(event.target).prev()[0].innerHTML;
+      markers[title].setMap(null);
+    }
+  })
 
-});
+  $("#restaurants-itinerary").on('click', function (event) {
+    if (event.target.nodeName === "BUTTON") {
+      var title = $(event.target).prev()[0].innerHTML;
+      markers[title].setMap(null);
+    }
+  })
+})
