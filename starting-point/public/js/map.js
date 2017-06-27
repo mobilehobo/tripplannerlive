@@ -78,20 +78,21 @@ $(function initializeMap() {
 
   $("#hotels-itinerary").on('click', function (event) {
     if (event.target.nodeName === "BUTTON") {
-      var title = $(event.target).prev()[0].innerHTML;
+      var title = $(event.target).prev()[0].innerHTML.replace(/&amp;/g, '&');
       markers[title].setMap(null);
     }
   })
   $("#activities-itinerary").on('click', function (event) {
     if (event.target.nodeName === "BUTTON") {
-      var title = $(event.target).prev()[0].innerHTML;
+      var title = $(event.target).prev()[0].innerHTML.replace(/&amp;/g, '&');
+      console.log(title);
       markers[title].setMap(null);
     }
   })
 
   $("#restaurants-itinerary").on('click', function (event) {
     if (event.target.nodeName === "BUTTON") {
-      var title = $(event.target).prev()[0].innerHTML;
+      var title = $(event.target).prev()[0].innerHTML.replace(/&amp;/g, '&');
       markers[title].setMap(null);
     }
   })
