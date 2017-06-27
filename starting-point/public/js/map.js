@@ -85,10 +85,7 @@ $(function initializeMap() {
   $("#activities-itinerary").on('click', function (event) {
     if (event.target.nodeName === "BUTTON") {
       var title = $(event.target).prev()[0].innerHTML.replace(/&amp;/g, '&');
-<<<<<<< HEAD
       console.log(title);
-=======
->>>>>>> ccf821e31f1ab59739725d9b7e274ec8ceff03b3
       markers[title].setMap(null);
     }
   })

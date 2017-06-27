@@ -48,8 +48,8 @@ $(function () {
       $(event.target).parent().remove();
     }
   })
-let i = 1;
-  $("#day-add").on('click', function(event){
+  let i = 1;
+  $("#day-add").on('click', function (event) {
     cloneDay();
     $('.current-day').toggleClass('current-day');
     $(event.target).before(`<button class="btn btn-circle day-btn current-day">${++i}</button>`);
@@ -59,16 +59,38 @@ let i = 1;
     changeDay();
   })
 
-  $("#day-button-list").on('click', function(event){
-    if(!$(event.target).hasClass('current-day') && event.target.id !== 'day-add')
-    {
+  $("#day-button-list").on('click', function (event) {
+    if (!$(event.target).hasClass('current-day') && event.target.id !== 'day-add' && event.target.nodeName === 'BUTTON') {
       cloneDay();
       $('.current-day').toggleClass('current-day');
       $(event.target).toggleClass('current-day');
       let itinParent = $('#itinerary').parent();
       $('#itinerary').remove();
-      console.log(dayStorage[event.target.innerHTML]);
       itinParent.append(dayStorage[event.target.innerHTML]);
+      changeDay();
+    }
+  })
+
+  $('#remove-day').on('click', function (event) {
+    var index = $('.current-day')[0].innerHTML;
+    let itinParent = $('#itinerary').parent();
+    let current = $('.current-day');
+    let newB;
+    if ($('.day-btn').length - 1 !== 1) {
+      dayStorage[index] = null;
+      $('#itinerary').remove();
+      if (index === 1) {
+        itinParent.append(dayStorage[++index]);
+        newB = current.next();
+      } else {
+        itinParent.append(dayStorage[--index]);
+        newB = current.prev();
+      }
+      newB.toggleClass('current-day');
+      current.remove();
+      // $('.current-day').toggleClass('temp-class');
+      // $('#day-button-list').children()[index].toggleClass('current-day');
+      // $('.temp-class').remove();
       changeDay();
     }
   })
@@ -76,7 +98,7 @@ let i = 1;
 })
 
 
-function createItineraryItem (title) {
+function createItineraryItem(title) {
   return `
   <div class="itinerary-item">
                 <span class="title">${title}</span>
@@ -84,13 +106,13 @@ function createItineraryItem (title) {
               </div>`
 }
 
-function cloneDay(){
+function cloneDay() {
   console.log($('.current-day')[0].innerHTML);
   dayStorage[$('.current-day')[0].innerHTML] = $('#itinerary').clone(true);
-  
+
 }
 
-function changeDay(){
+function changeDay() {
   let dayNum = $('.current-day')[0].innerHTML;
-    $('#day-title span')[0].innerHTML = `Day ${dayNum}`;
+  $('#day-title span')[0].innerHTML = `Day ${dayNum}`;
 }
